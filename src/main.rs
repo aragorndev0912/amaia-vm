@@ -4,8 +4,10 @@
  */
 
 mod instruction;
+mod memory;
+use memory::Memory;
 
 fn main() {
-    let memory = instruction::load("sbasic/add.sb");
-    println!("{:#?}", memory);
+    let memory = instruction::load("avm/add.am");
+    Memory::execute(&memory);
 }

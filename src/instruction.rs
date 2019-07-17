@@ -10,6 +10,7 @@ const FIVETEEN:usize = 'F' as usize;
 
 #[allow(dead_code)]
 #[derive(Debug)]
+/// Estrutura donde se almacena los datos de cada instrucción.
 pub struct Instruction {
     code:String,
     operation:usize,
@@ -27,7 +28,21 @@ impl Instruction {
         }
     }
 }
+/// Se encarga del llamado a la función de lectura del fichero
+/// y la función que permita la construción del árbol de instrucciones.
+pub fn load(filename:&'static str) -> BTreeMap<usize, Instruction>{
+    let data = read_file(&filename); 
+    gen_instructions(&data)
+}
 
+/// Se encarga de convertir un número hexadecimal a un entero
+/// sin signo de 8 bytes.
+/// 
+/// # Ejemplo
+/// ```
+/// let h:char = 'A'; //10
+/// let i:usize = char_to_int(h); //i == 10
+/// ```
 fn char_to_int(c:char) -> Option<usize> {
     let num = c as usize;
     if num >= ZERO && num <= NINE {
@@ -39,6 +54,18 @@ fn char_to_int(c:char) -> Option<usize> {
     None
 }
 
+/// Permite la construccion de un número entero sin signo
+/// de 8 bytes, a partir del llamado de la función `char_to_int`.
+/// 
+/// # Parametro
+/// 
+/// * `code` - un slide de caracteres.
+/// 
+/// # Ejemplo
+/// ```
+/// let h_num = "14"; // valor en hexadecimal
+/// let d_num = hex_to_int(&hex_num); // d_num == 20
+/// ```
 fn hex_to_int<'a>(code:&'a str) -> Option<usize> {
     let mut val:usize = 0x0;
     for c in code.chars() {
@@ -50,11 +77,8 @@ fn hex_to_int<'a>(code:&'a str) -> Option<usize> {
     Some(val)
 }
 
-pub fn load(filename:&'static str) -> BTreeMap<usize, Instruction>{
-    let data = read_file(&filename); 
-    gen_instructions(&data)
-}
-
+/// Permite almacenar los datos necesarios para la construción de la 
+/// structura Instruction y lo almacena en el árbol de instrución.
 fn save_instruction<'a>(map:&mut BTreeMap<usize, Instruction>, instruction:&'a str) {
     let signed_str = instruction.get(0x0..0x1).unwrap();
     let operation_str = instruction.get(0x1..0x3).unwrap();
