@@ -5,9 +5,9 @@
 
 mod instruction;
 mod memory;
-use memory::Memory;
+mod operation;
 
 fn main() {
     let memory = instruction::load("avm/add.am");
-    Memory::execute(&memory);
+    memory::run(&memory);
 }
