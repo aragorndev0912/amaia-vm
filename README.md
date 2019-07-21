@@ -80,10 +80,10 @@ La instruccion la podriamos dividir en tres números hexadecimales:
 
 > `0 0A 00000007`
 
-El primer dígito es un número hexadecimal, con una capacidad de almacenamiento igual a **2^4**, es decir, un nibble o cuatro bit, ya que puede tomar valores del `0 al F` o del `0 al 15` en decimal. Define el signo de la instrucción, donde __0__ representa un número positivo y 
+El primer dígito es un número hexadecimal, con una capacidad de almacenamiento igual a **2^4**, es decir, `1 nibble` o `4 bit`, ya que puede tomar valores del `0 al F` o del `0 al 15` en decimal. Define el signo de la instrucción, donde __0__ representa un número positivo y 
 __1__ un número negativo, no se contemplan valores superiores a __1__.
 
-El segundo dígito es un número hexadecimal con una capacidad de almacenamiento igual a **2^8**, es decir, `1 bytes` o lo que es lo mismo `8 bit`, puede tomar un rango de valores igual  `00 - F`, o lo que seria su equivalente en decimal al rango `0 - 255`. Es en este dígito donde se definen las operaciones a realizar, operaciones de I/O, operaciones de transferencia de control, etc.
+El segundo dígito es un número hexadecimal con una capacidad de almacenamiento igual a **2^8**, es decir, `1 bytes` o lo que es lo mismo `8 bit`, puede tomar un rango de valores igual  `00 - F`, o lo que seria su equivalente en decimal el rango `0 - 255`. Es en este dígito donde se definen las operaciones a realizar, **operaciones de I/O**, **operaciones de transferencia de control**, etc.
 
 El tercer dígito es un número hexadecimal con una capacidad de almacenamiento igual a **2^32**, es decir, `4.294.967.296 bit` que igual a `536.870.912 bytes`, esto define la capacidad de memoria manejada por la `AVM`.
 
