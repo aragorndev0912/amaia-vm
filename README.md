@@ -51,7 +51,6 @@ La `AVM` maneja un total de 12 instrucciones, las cuales se dividen en diferente
 
 ### Resumen de instrucciones:
 
-<center>
 |  N  | Instrucion | Hexadecimal | Decimal |
 |:---:|:----------:|:-----------:|:-------:|
 |  0  |    READ    |     0x0A    |    10   |
@@ -66,7 +65,7 @@ La `AVM` maneja un total de 12 instrucciones, las cuales se dividen en diferente
 |  9  |  JUMP_NEG  |     0x29    |    41   |
 |  10 |  JUMP_ZERO |     0x2A    |    42   |
 |  11 |     STOP   |     0x2B    |    43   |
-</center>
+
 ## Formato de una instruccion:
 
 Las instruciones en `AVM` constan de una secuencia de números hexadecimales, los cuales contienen toda la información necesaria para ejecución de las diferentes operaciones.
