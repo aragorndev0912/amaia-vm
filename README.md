@@ -51,6 +51,7 @@ La `AVM` maneja un total de 12 instrucciones, las cuales se dividen en diferente
 
 ### Resumen de instrucciones:
 
+<center>
 |  N  | Instrucion | Hexadecimal | Decimal |
 |:---:|:----------:|:-----------:|:-------:|
 |  0  |    READ    |     0x0A    |    10   |
@@ -65,7 +66,7 @@ La `AVM` maneja un total de 12 instrucciones, las cuales se dividen en diferente
 |  9  |  JUMP_NEG  |     0x29    |    41   |
 |  10 |  JUMP_ZERO |     0x2A    |    42   |
 |  11 |     STOP   |     0x2B    |    43   |
-
+</center>
 ## Formato de una instruccion:
 
 Las instruciones en `AVM` constan de una secuencia de números hexadecimales, los cuales contienen toda la información necesaria para ejecución de las diferentes operaciones.
@@ -85,7 +86,7 @@ __1__ un número negativo, no se contemplan valores superiores a __1__.
 
 El segundo dígito es un número hexadecimal con una capacidad de almacenamiento igual a **2^8**, es decir, `1 bytes` o lo que es lo mismo `8 bit`, puede tomar un rango de valores igual  `00 - F`, o lo que seria su equivalente en decimal el rango `0 - 255`. Es en este dígito donde se definen las operaciones a realizar, **operaciones de I/O**, **operaciones de transferencia de control**, etc.
 
-El tercer dígito es un número hexadecimal con una capacidad de almacenamiento igual a **2^32**, es decir, `4.294.967.296 bit` que igual a `536.870.912 bytes`, esto define la capacidad de memoria manejada por la `AVM`.
+El tercer dígito es un número hexadecimal con una capacidad de almacenamiento igual a **2^32**, es decir, `4.294.967.296 bit`, igual a `536.870.912 bytes`, esto define la capacidad de memoria manejada por la `AVM`.
 
 ## Ejemplos 
 
