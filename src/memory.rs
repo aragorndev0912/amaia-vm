@@ -95,7 +95,10 @@ impl Memory<'_> {
     fn store(&mut self) -> bool {
         let dir = self.map[&self.counter].pointer;
         match self.mem.get(&dir) {
-            Some(_) => {*self.mem.get_mut(&dir).unwrap() = self.accumulator;},
+            Some(_) => {
+                *self.mem.get_mut(&dir).unwrap() = self.accumulator;
+                self.accumulator = Numeric { v:0, s:0 };
+            },
             None => {self.mem.insert(dir, self.accumulator);}
         }
         self.counter += 1;
@@ -131,8 +134,6 @@ impl Memory<'_> {
                     v: result as usize,
                     s: signed
                 };
-
-                *self.mem.get_mut(&dir).unwrap() = self.accumulator;
                 self.counter +=1;
                 return true;
             },
@@ -140,6 +141,46 @@ impl Memory<'_> {
         }
 
         false
+    }
+
+    fn jump(&mut self) -> bool {
+        match self.map.get(&self.counter) {
+            Some(inst) => {
+                self.counter = inst.pointer;
+                return true;
+            },
+            None => {
+                println!("error: jump.");
+                return false;
+            }
+        } 
+    }
+
+    fn jump_neg(&mut self) -> bool {
+        match self.map.get(&self.counter) {
+            Some(instr) => {
+                let value:i32 = (self.accumulator.v as i32) * if self.accumulator.s == 0 { 1 } else { -1 };
+                self.counter = if value < 0 { instr.pointer } else { self.counter+1 };
+                return true;
+            },
+            None => {
+                println!("error: jump_zero.");
+                return false;
+            }
+        }        
+    }
+
+    fn jump_zero(&mut self) -> bool {
+        match self.map.get(&self.counter) {
+            Some(instr) => {
+                self.counter = if self.accumulator.v == 0 { instr.pointer } else { self.counter+1 };
+                return true;
+            },
+            None => {
+                println!("error: jump_zero.");
+                return false;
+            }
+        }        
     }
 }
 
@@ -160,9 +201,9 @@ pub fn run<'a>(map:&'a BTreeMap<usize, Instruction>) {
             Operation::Div => is_running = memory.operation(&Operation::Div),
             Operation::Mul => is_running = memory.operation(&Operation::Mul),
 
-            Operation::Jump => memory.counter +=1,
-            Operation::JumpNeg => memory.counter +=1,
-            Operation::JumpZero => memory.counter +=1,
+            Operation::Jump => is_running = memory.jump(),
+            Operation::JumpNeg => is_running = memory.jump_neg(),
+            Operation::JumpZero => is_running = memory.jump_zero(),
             Operation::Stop => is_running = false
         }
     }

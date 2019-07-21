@@ -36,7 +36,7 @@ pub fn load<'a>(filename:&'a str) -> Result<BTreeMap<usize, Instruction>, String
     match read_file(&filename) {
         Ok(data) => Ok(gen_instructions(&data)),
         Err(why) => Err(why)
-    } 
+    }
 }
 
 /// Se encarga de convertir un número hexadecimal a un entero
@@ -58,13 +58,9 @@ fn char_to_int(c:char) -> Option<usize> {
     None
 }
 
-/// Permite la construccion de un número entero sin signo
-/// de 8 bytes, a partir del llamado de la función `char_to_int`.
-///
-/// # Parametro
-///
-/// * `code` - un slide de caracteres.
-///
+/// Convierte un slide de String en un numero
+/// haxedecimal.
+/// 
 /// # Ejemplo
 /// ```
 /// let h_num = "14"; // valor en hexadecimal
@@ -81,6 +77,13 @@ fn hex_to_int<'a>(code:&'a str) -> Option<usize> {
     Some(val)
 }
 
+/// Devuelve el valor correspondiente de un entero sin
+/// signo a un enum de tipo `Operation`.
+/// 
+/// # Ejemplo
+/// ```
+/// let ope:Operation = int_to_operation(10 as usize); // ope == Read
+/// ```
 fn int_to_operation(value:& usize) -> Operation {
     match value {
         0x0A => return Operation::Read,
