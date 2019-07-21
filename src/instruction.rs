@@ -26,7 +26,7 @@ impl Instruction {
             code: code,
             operation: operation,
             pointer: pointer,
-            signed: signed,
+            signed: signed
         }
     }
 }
@@ -101,33 +101,34 @@ fn int_to_operation(value:& usize) -> Operation {
 
 /// Permite almacenar los datos necesarios para la construción de la
 /// structura Instruction y lo almacena en el árbol de instrución.
-fn save_instruction<'a>(map:&mut BTreeMap<usize, Instruction>, instruction:&'a str) {
+fn save_instruction<'a>(map:&mut BTreeMap<usize, Instruction>, instruction:&'a str, index:&mut usize) {
     let signed_str = instruction.get(0x0..0x1).unwrap();
     let operation_str = instruction.get(0x1..0x3).unwrap();
-    let direction_str = instruction.get(0x3..0xB).unwrap();
-    let pointer_str = instruction.get(0xB..).unwrap();
+    let pointer_str = instruction.get(0x3..).unwrap();
 
     let signed = hex_to_int(&signed_str).unwrap();
     let operation = int_to_operation(&hex_to_int(&operation_str).unwrap());
-    let direction = hex_to_int(&direction_str).unwrap();
     let pointer = hex_to_int(&pointer_str).unwrap();
 
-    map.insert(direction, Instruction::new(
+    map.insert(*index, Instruction::new(
         instruction.to_string().clone(),
         operation,
         pointer,
         signed
     ));
+
+    *index += 1;
 }
 
 fn gen_instructions<'a>(data:&'a str) ->BTreeMap<usize, Instruction> {
     let mut instructions:BTreeMap<usize, Instruction> = BTreeMap::new();
     let invalid_chars = ['\n', ' ', '\r'];
     let mut instruction = String::new();
+    let mut index:usize = 1;
 
     for c in data.chars() {
         if instruction.len() > 7 && invalid_chars.contains(&c) {
-            save_instruction(&mut instructions, &instruction);
+            save_instruction(&mut instructions, &instruction, &mut index);
             instruction.clear();
         }
         else if !invalid_chars.contains(&c) {
@@ -136,7 +137,7 @@ fn gen_instructions<'a>(data:&'a str) ->BTreeMap<usize, Instruction> {
     }
 
     if instruction.len() > 0 {
-        save_instruction(&mut instructions, &mut instruction);
+        save_instruction(&mut instructions, &mut instruction, &mut index);
         instruction.clear();
     }
     instructions

@@ -6,18 +6,24 @@ use std::io;
 use crate::operation::Operation;
 use crate::instruction::Instruction;
 
+#[derive(Debug, Clone, Copy)]
+struct Numeric {
+    v:usize,
+    s:usize
+}
+
 #[derive(Debug)]
 struct Memory<'a> {
-    accumulator:usize,
+    accumulator:Numeric,
     counter:usize,
     map:&'a BTreeMap<usize, Instruction>,
-    mem:HashMap<usize, usize>
+    mem:HashMap<usize, Numeric>
 }
 
 impl Memory<'_> {
     fn new <'a>(map:&'a BTreeMap<usize, Instruction>) ->Memory {
         Memory {
-            accumulator: 0,
+            accumulator: Numeric {v:0, s:0},
             counter:1,
             map:map,
             mem:HashMap::new()
@@ -34,8 +40,19 @@ impl Memory<'_> {
             Ok(_) => {
                 let key = self.map[&self.counter].pointer;
                 let string:String = String::from(buffer.get(0..(buffer.len()-2)).unwrap());
-                let value = string.parse::<usize>().unwrap();
-                self.mem.insert(key, value);
+                
+                let mut value:i32 = string.parse::<i32>().unwrap();
+                let signed:usize = if value < 0 { 1 } else { 0 };
+                value *= if value < 0 { -1 } else { 1 }; 
+
+                self.mem.insert(
+                    key, 
+                    Numeric{
+                        v: value as usize,
+                        s: signed
+                    }
+                );
+
                 self.counter +=1;
                 return true;
             },
@@ -48,8 +65,10 @@ impl Memory<'_> {
     fn write(&mut self) -> bool {
         let key = self.map[&self.counter].pointer;
         match self.mem.get(&key) {
-            Some(value) => {
-                println!("{}", value);
+            Some(numeric) => {
+                let num:i32 = (numeric.v as i32) * (if numeric.s == 0 { 1 } else { -1 });
+
+                println!("{}", num);
                 self.counter += 1;
                 return true;
             },
@@ -62,8 +81,8 @@ impl Memory<'_> {
     fn load(&mut self) -> bool {
         let dir = self.map[&self.counter].pointer;
         match self.mem.get(&dir) {
-            Some(value) => {
-                self.accumulator = value.clone();
+            Some(numeric) => {
+                self.accumulator = numeric.clone();
                 self.counter += 1;
                 return true;
             },
@@ -86,14 +105,32 @@ impl Memory<'_> {
     fn operation(&mut self, ope:&Operation) -> bool {
         let dir = self.map[&self.counter].pointer;
         match self.mem.get(&dir) {
-            Some(value) => {
+            Some(numeric) => {
+                let v0:i32 = (self.accumulator.v as i32) * (if self.accumulator.s == 0 { 1 } else { -1 });
+                let v1:i32 = (numeric.v as i32) * (if numeric.s == 0 { 1 } else { -1 });
+                let mut result:i32 = 0;
+
                 match ope {
-                    Operation::Add => self.accumulator += value,
-                    Operation::Sub => self.accumulator -= value,
-                    Operation::Div => self.accumulator /= value,
-                    Operation::Mul => self.accumulator *= value,
+                    Operation::Add => result = v0 + v1,
+                    Operation::Sub => result = v0 - v1,
+                    Operation::Div => {
+                        if v1 == 0 { 
+                            println!("error: division for zero: {}", v1);
+                            return false;
+                        } 
+                        result = v0 / v1;
+                    },
+                    Operation::Mul => result = v0 * v1,
                     _ => { return false }
                 }
+
+                let signed:usize = if result < 0 { 1 } else { 0 };
+
+                result *= if result < 0 { -1 } else { 1 };
+                self.accumulator = Numeric {
+                    v: result as usize,
+                    s: signed
+                };
 
                 *self.mem.get_mut(&dir).unwrap() = self.accumulator;
                 self.counter +=1;
