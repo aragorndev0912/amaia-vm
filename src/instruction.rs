@@ -32,9 +32,11 @@ impl Instruction {
 }
 /// Se encarga del llamado a la función de lectura del fichero
 /// y la función que permita la construción del árbol de instrucciones.
-pub fn load(filename:&'static str) -> BTreeMap<usize, Instruction>{
-    let data = read_file(&filename);
-    gen_instructions(&data)
+pub fn load<'a>(filename:&'a str) -> Result<BTreeMap<usize, Instruction>, String>{
+    match read_file(&filename) {
+        Ok(data) => Ok(gen_instructions(&data)),
+        Err(why) => Err(why)
+    } 
 }
 
 /// Se encarga de convertir un número hexadecimal a un entero
@@ -143,16 +145,16 @@ fn gen_instructions<'a>(data:&'a str) ->BTreeMap<usize, Instruction> {
     instructions
 }
 
-fn read_file(filename:&'static str) -> String {
+fn read_file<'a>(filename:&'a str) -> Result<String, String> {
     let path = Path::new(filename);
     let mut file = match File::open(path) {
-        Err(why) => panic!("{}", why),
+        Err(_) => return Err(format!("Error: is not possible open file: {}.", filename)),
         Ok(file) => file
     };
 
     let mut data = String::new();
     match file.read_to_string(&mut data) {
-        Err(why) => panic!("{}", why),
-        Ok(_) => data
+        Err(_) => return Err(format!("Error: is not possible read line.")),
+        Ok(_) => Ok(data)
     }
 }

@@ -108,7 +108,7 @@ impl Memory<'_> {
             Some(numeric) => {
                 let v0:i32 = (self.accumulator.v as i32) * (if self.accumulator.s == 0 { 1 } else { -1 });
                 let v1:i32 = (numeric.v as i32) * (if numeric.s == 0 { 1 } else { -1 });
-                let mut result:i32 = 0;
+                let mut result:i32;
 
                 match ope {
                     Operation::Add => result = v0 + v1,
