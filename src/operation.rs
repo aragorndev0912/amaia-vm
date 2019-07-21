@@ -1,21 +1,20 @@
-//!Operaciones aceptadas por la virtual machine
-
-///Operaciones de entrada y salida.
-pub const READ:u32 = 0x0A; 
-pub const WRITE:u32 = 0x0B; 
-
-///Operaciones de carga y almacenamiento.
-pub const LOAD:u32 = 0x14;
-pub const STORE:u32 = 0x15;
-
-///Operaciones aritmeticas.
-pub const ADD:u32 = 0x1E;
-pub const SUB:u32 = 0x1F;
-pub const DIV:u32 = 0x20;
-pub const MUL:u32 = 0x21;
-
-///Operaciones de transferencia de control.
-pub const JUMP:u32 = 0x28;
-pub const JUMP_NEG:u32 = 0x29;
-pub const JUMP_ZERO:u32 = 0x2A;
-pub const STOP:u32 = 0x2B;
+#[allow(dead_code)]
+#[derive(Debug, Clone, Copy)]
+pub enum Operation {
+    ///Operation I/O.
+    Read = 0x0A,
+    Write = 0x0B,
+    ///Operation load & store of data.
+    Load = 0x14,
+    Store = 0x15,
+    ///Operation arithmetic.
+    Add = 0x1E,
+    Sub = 0x1F,
+    Div = 0x20,
+    Mul = 0x21,
+    ///Operation of control transfer.
+    Jump = 0x28,
+    JumpNeg = 0x29,
+    JumpZero = 0x2A,
+    Stop = 0x2B
+}
