@@ -1,7 +1,7 @@
 # Amaia Virtual Machine
 
-Amaia virtual machine (AVM), es un interprete para el lenguaje de programación
-`Amaia`, el cual no es mas que una simplificacion del lenguaje programación Basic.
+Amaia virtual machine (AVM), es un intérprete para el lenguaje de programación
+`Amaia`, el cual no es mas que una simplificación del lenguaje programación Basic.
 
 `AVM` lee ficheros con extensión __.avm__, el contenido del fichero esta definido por una series de números hexadecimales, los cuales poseen las instrucciones a ser ejecutadas por la `AVM`.
 
@@ -11,7 +11,7 @@ La `AVM` maneja un total de 12 instrucciones, las cuales se dividen en diferente
 
 1. Operaciones de entrada y salida.
     * READ
-    > Lee una palabra desde la terminal y la almacena en la ubicacion de memoria.
+    > Lee una palabra desde la terminal y la almacena en la ubicación de memoria.
 
     * WRITE
     > Escribe una palabra desde una ubicación especifica de memoria hacia la terminal.
@@ -21,20 +21,20 @@ La `AVM` maneja un total de 12 instrucciones, las cuales se dividen en diferente
     > Cargar una palabra desde una ubicación especifica de memoria, y la almacena en el acumulador. 
 
     * STORE
-    > Almacena una palabra desde el acumulador hacia una ubicacion especifica de memoria.
+    > Almacena una palabra desde el acumulador hacia una ubicación especifica de memoria.
 
 3. Operaciones aritméticas.
     * ADD
-    > Suma una palabra desde una ubicación especifica de memoria con la palabra almacenada en el acumulador. Deja el resultado de la operacion en el acumulador.
+    > Suma una palabra desde una ubicación especifica de memoria con la palabra almacenada en el acumulador. Deja el resultado de la operación en el acumulador.
 
     * SUB
-    > Resta una palabra desde una ubicación especifica de memoria con la palabra almacenada en el acumulador. Deja el resultado de la operacion en el acumulador.
+    > Resta una palabra desde una ubicación especifica de memoria con la palabra almacenada en el acumulador. Deja el resultado de la operación en el acumulador.
 
     * DIV
-    > Divide una palabra desde una ubicación especifica de memoria con la palabra almacenada en el acumulador. Deja el resultado de la operacion en el acumulador.
+    > Divide una palabra desde una ubicación especifica de memoria con la palabra almacenada en el acumulador. Deja el resultado de la operación en el acumulador.
 
     * MUL
-    > Multiplica una palabra desde una ubicación especifica de memoria con la palabra almacenada en el acumulador. Deja el resultado de la operacion en el acumulador.
+    > Multiplica una palabra desde una ubicación especifica de memoria con la palabra almacenada en el acumulador. Deja el resultado de la operación en el acumulador.
 
 4. Operaciones de transferncia de control.
     * JUMP
@@ -72,18 +72,17 @@ Las instruciones en `AVM` constan de una secuencia de números hexadecimales, lo
 
 ### Ejemplo de instrucción:
 
-Ejemplo de una instruccion de lectura (READ).
+Ejemplo de una instrucción de lectura (READ).
 
 > `00A00000007`
 
-La instruccion la podriamos dividir en tres números hexadecimales:
+La instrucción la podríamos dividir en tres números hexadecimales:
 
 > `0 0A 00000007`
 
-El primer dígito es un número hexadecimal, con una capacidad de almacenamiento igual a **2^4**, es decir, `1 nibble` o `4 bit`, ya que puede tomar valores del `0 al F` o del `0 al 15` en decimal. Define el signo de la instrucción, donde __0__ representa un número positivo y 
-__1__ un número negativo, no se contemplan valores superiores a __1__.
+El primer dígito es un número hexadecimal, con una capacidad de almacenamiento igual a **2^4**, es decir, `1 nibble` o `4 bit`, ya que puede tomar valores del `0 al F` o del `0 al 15` en decimal. Define el signo de la instrucción, donde __0__ representa un número positivo y __1__ un número negativo, no se contemplan valores superiores a __1__.
 
-El segundo dígito es un número hexadecimal con una capacidad de almacenamiento igual a **2^8**, es decir, `1 bytes` o lo que es lo mismo `8 bit`, puede tomar un rango de valores igual  `00 - F`, o lo que seria su equivalente en decimal el rango `0 - 255`. Es en este dígito donde se definen las operaciones a realizar, **operaciones de I/O**, **operaciones de transferencia de control**, etc.
+El segundo dígito es un número hexadecimal con una capacidad de almacenamiento igual a **2^8**, es decir, `1 bytes` o lo que es lo mismo `8 bit`, puede tomar un rango de valores igual  `00 - F`, o lo que seria su equivalente en decimal al rango `0 - 255`. Es en este dígito donde se definen las operaciones a realizar, **operaciones de I/O**, **operaciones de transferencia de control**, etc.
 
 El tercer dígito es un número hexadecimal con una capacidad de almacenamiento igual a **2^32**, es decir, `4.294.967.296 bit`, igual a `536.870.912 bytes`, esto define la capacidad de memoria manejada por la `AVM`.
 
@@ -130,7 +129,7 @@ Lee dos números, los almacena, y imprime el menor en la terminal.
 
 ### Contador:
 
-Lee dos números, los almacena y resta el primero con respecto al segundo hasta que el primero sea igual a cero, el rsultado de la operacion lo va imprimiendo en la terminal.
+Lee dos números, los almacena y resta el primero con respecto al segundo hasta que el primero sea igual a cero, el resultado de la operación lo va imprimiendo en la terminal.
 
 ```
 00A0000000B
